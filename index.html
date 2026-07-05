@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SOFRA 25/7 — Restaurant Menu. Lebanese, International & Sushi. Fresh ingredients, every day." />
+  <title>SOFRA 25/7 | Menu</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FFF8F0',
+            'cream-dark': '#F0E6D8',
+            forest: '#1A2F28',
+            'forest-deep': '#142620',
+            'forest-mid': '#243D34',
+            'forest-light': '#3D6B58',
+            sage: '#9EC4A8',
+            'gold-bright': '#F0CFA0',
+            mauve: '#9A8585',
+            gold: '#D4A574',
+          },
+          fontFamily: {
+            display: ['Syne', 'system-ui', 'sans-serif'],
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+  <main>
+    <!-- Hero -->
+    <section id="hero" class="hero-section relative min-h-screen flex items-center">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-grain" aria-hidden="true"></div>
+
+      <div class="relative z-10 max-w-7xl mx-auto w-full px-5 sm:px-8 pt-12 sm:pt-16 pb-20 grid lg:grid-cols-2 gap-14 items-center">
+        <div class="hero-content animate-fade-up text-center lg:text-left">
+          <div class="hero-mobile-badge" aria-hidden="true">
+            <span class="hero-mobile-badge__brand">SOFRA</span>
+            <span class="hero-mobile-badge__hours">25/7</span>
+          </div>
+          <div class="logo-hero-wrap mb-12 mx-auto lg:mx-0">
+            <img src="logo.png" alt="SOFRA 25/7" class="logo-hero" />
+          </div>
+          <h1 class="font-serif text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[1.05] text-cream mb-6">
+            Enjoy Great Food.<br />
+            <span class="text-gold italic">Fresh Ingredients.</span>
+          </h1>
+          <p class="text-cream/75 text-base sm:text-lg leading-relaxed max-w-md mb-10 mx-auto lg:mx-0">
+            Lebanese mezza, grilled classics, international favorites, and signature sushi, every day at SOFRA 25/7.
+          </p>
+          <a href="#menu" class="btn-hero">Explore Our Menu</a>
+        </div>
+
+        <div class="hero-visual animate-fade-up delay-100 hidden lg:flex justify-end">
+          <div class="hero-orbit" aria-hidden="true">
+            <div class="hero-orbit__ring hero-orbit__ring--outer"></div>
+            <div class="hero-orbit__ring hero-orbit__ring--mid"></div>
+            <div class="hero-orbit__core">
+              <span class="hero-orbit__label">SOFRA</span>
+              <span class="hero-orbit__hours">25/7</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="#menu" class="scroll-hint" aria-label="Scroll to menu">
+        <span class="scroll-hint-line"></span>
+      </a>
+    </section>
+
+    <!-- Menu -->
+    <section id="menu" class="menu-section">
+      <div class="menu-texture" aria-hidden="true"></div>
+      <div class="menu-watermark" aria-hidden="true">SOFRA</div>
+
+      <div class="menu-inner max-w-7xl mx-auto px-5 sm:px-8">
+        <header class="menu-header animate-fade-up">
+          <div class="menu-title-block">
+            <span class="menu-brand-tag">SOFRA 25/7</span>
+            <h2 class="menu-title">Our Menu</h2>
+          </div>
+        </header>
+
+        <div class="menu-controls-panel animate-fade-up delay-100">
+          <div class="menu-controls">
+            <div id="filter-sticky" class="filter-sticky">
+              <div class="filter-sticky__inner">
+                <div class="filter-group">
+                  <span class="filter-group__label">Cuisine</span>
+                  <div id="cuisine-tabs" class="cuisine-tabs" role="tablist" aria-label="Cuisine selection"></div>
+                </div>
+                <div class="filter-group">
+                  <span class="filter-group__label">Category</span>
+                  <div id="subcategory-tabs" class="subcategory-tabs" role="tablist" aria-label="Category filters"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="menu-list-wrap">
+          <div id="menu-content" class="menu-list"></div>
+        </div>
+
+        <p id="menu-empty" class="menu-empty hidden">
+          <span class="font-serif text-2xl text-cream block mb-2">No dishes found</span>
+          Try another category.
+        </p>
+      </div>
+    </section>
+
+    
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-section py-14 px-5 sm:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
+        <div>
+          <img src="logo.png" alt="SOFRA 25/7" class="logo-footer h-12 w-auto mb-4" />
+          <p class="text-cream/60 text-sm leading-relaxed max-w-xs">
+            Lebanese · International · Sushi<br />Enjoy Great Food. Fresh Ingredients. Every Day.
+          </p>
+        </div>
+        <div>
+          <div class="flex items-center">
+            <a
+              href="https://www.instagram.com/sofra257"
+              class="instagram-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow Sofra257 By Elina on Instagram"
+            >
+              <span class="social-link" aria-hidden="true">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              </span>
+              <span class="instagram-link__label">Sofra257 By Elina</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-cream/10 pt-8 text-center text-cream/50 text-xs sm:text-sm">
+        <p>&copy; 2026 SOFRA 25/7. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
