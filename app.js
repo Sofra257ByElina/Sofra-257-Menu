@@ -137,6 +137,15 @@ const menuData = {
   international: {
     label: 'International',
     categories: {
+      appetizers: {
+        label: 'Appetizers',
+        items: [
+          mi('ap-1', 'French Fries'),
+          mi('ap-2', 'Crispy Tenders'),
+          mi('ap-3', 'Mozzarella Sticks'),
+          mi('ap-4', 'Spring Rolls'),
+        ],
+      },
       sandwiches: {
         label: 'Sandwiches',
         items: [
@@ -180,15 +189,6 @@ const menuData = {
           mi('ps-1', 'Chicken Alfredo', 'Tagliatelle with chicken breast, fresh mushrooms, creamy sauce, mozzarella, and Parmesan.', 15),
           mi('ps-2', 'Creamy Pesto Pasta', 'Penne with fresh pesto, cherry tomatoes, mushrooms, creamy sauce, and Parmesan.', 15),
           mi('ps-3', 'Creamy Shrimp Pasta', 'Tagliatelle with shrimp, creamy sauce, mozzarella, and Parmesan.', 15),
-        ],
-      },
-      appetizers: {
-        label: 'Appetizers',
-        items: [
-          mi('ap-1', 'French Fries'),
-          mi('ap-2', 'Crispy Tenders'),
-          mi('ap-3', 'Mozzarella Sticks'),
-          mi('ap-4', 'Spring Rolls'),
         ],
       },
     },
