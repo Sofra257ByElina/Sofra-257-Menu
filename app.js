@@ -9,6 +9,43 @@ function mi(id, name, description = '', price = null, options = {}) {
   return { id, name, description, price, ...options };
 }
 
+function formula(id, price, sections, options = {}) {
+  return {
+    id,
+    type: 'formula',
+    name: options.name || 'Formula',
+    price,
+    perPerson: true,
+    sections,
+    includes: options.includes || ['Vegetables platter', 'Soft drinks and arak'],
+    featured: options.featured || false,
+    premium: options.premium || false,
+  };
+}
+
+const FORMULA_SHARED_SECTIONS = [
+  {
+    label: 'Cold Mezza',
+    items: ['Hummus', 'Moutabbal', 'Labneh with Garlic', 'Vine Leaves', 'Shanklish'],
+  },
+  {
+    label: 'Hot Mezza',
+    items: ['Makanek', 'Sujouk', 'Potato Provençal', 'Wings Provençal'],
+  },
+  {
+    label: 'Salads (Choice of 2)',
+    items: ['Fattoush or Tabbouleh', 'Rocca Salad or Beetroot Salad'],
+  },
+  {
+    label: 'Pastries',
+    items: ['Rakakat', 'Sfiha', 'Sambousek', 'Kebab Kibbeh'],
+  },
+  {
+    label: 'Barbecue (Mixed Grill)',
+    items: ['Grilled Beef', 'Shish Tawouk', 'Grilled Kafta'],
+  },
+];
+
 function resolvePrice(item) {
   if (item.price != null) return item.price;
   if (item.tier === 'premium') return PIZZA_PREMIUM;
@@ -105,12 +142,11 @@ const menuData = {
         label: 'Raw & Traditional',
         items: [
           mi('rt-1', 'Kibbeh Nayyeh', '', 0),
-          mi('rt-2', 'Ftine Nayyeh', '', 0),
+          mi('rt-2', 'Ftile Nayyeh', '', 0),
           mi('rt-3', 'Sawda Nayyeh', '', 0),
           mi('rt-4', 'Ras Kibbeh', '', 0),
           mi('rt-5', 'Kebab Kibbeh', '', 0),
           mi('rt-6', 'Tableh', '', 0),
-          mi('rt-7', 'Roz', '', 0),
           mi('rt-8', 'Sofra 25/7 Kibbeh', '', 0, { featured: true }),
         ],
       },
@@ -131,6 +167,27 @@ const menuData = {
           mi('bb-4', 'Mixed Grills', '', 0, { featured: true }),
         ],
       },
+      formulas: {
+        label: 'Formulas',
+        type: 'formulas',
+        note: 'Set menus · priced per person',
+        items: [
+          formula('fm-25', 25, FORMULA_SHARED_SECTIONS, { name: 'Formula' }),
+          formula(
+            'fm-35',
+            35,
+            [
+              ...FORMULA_SHARED_SECTIONS.slice(0, 4),
+              {
+                label: 'Raw Mezza',
+                items: ['Kibbeh Nayyeh', 'Kafta Nayyeh', 'Mixed Raw Platter (Sahn Nayye Mshakkal)'],
+              },
+              FORMULA_SHARED_SECTIONS[4],
+            ],
+            { name: 'Formula Premium', premium: true, featured: true }
+          ),
+        ],
+      },
     },
   },
 
@@ -140,10 +197,10 @@ const menuData = {
       appetizers: {
         label: 'Appetizers',
         items: [
-          mi('ap-1', 'French Fries'),
-          mi('ap-2', 'Crispy Tenders'),
-          mi('ap-3', 'Mozzarella Sticks'),
-          mi('ap-4', 'Spring Rolls'),
+          mi('ap-1', 'French Fries', '', 5),
+          mi('ap-2', 'Crispy Tenders', '', 8),
+          mi('ap-3', 'Mozzarella Sticks', '', 8),
+          mi('ap-4', 'Spring Rolls', '', 9),
         ],
       },
       sandwiches: {
@@ -486,6 +543,52 @@ function createMenuLineItem(item, categoryKey, globalIndex, priceType = '') {
   return row;
 }
 
+function createFormulaCard(item, globalIndex) {
+  const card = document.createElement('article');
+  card.className = [
+    'formula-card',
+    item.premium ? 'formula-card--premium' : '',
+    item.featured ? 'formula-card--featured' : '',
+  ].filter(Boolean).join(' ');
+  card.id = `item-${item.id}`;
+  card.dataset.id = item.id;
+  card.style.animationDelay = `${globalIndex * 50}ms`;
+
+  const badgeLabel = item.premium ? 'Premium Set' : 'Set Menu';
+  const sectionsHtml = item.sections
+    .map(
+      (section) => `
+      <div class="formula-card__section">
+        <h5 class="formula-card__section-title">${escapeHtml(section.label)}</h5>
+        <ul class="formula-card__list">
+          ${section.items.map((entry) => `<li>${escapeHtml(entry)}</li>`).join('')}
+        </ul>
+      </div>
+    `
+    )
+    .join('');
+
+  const includesHtml = item.includes
+    .map((entry) => `<span>${escapeHtml(entry)}</span>`)
+    .join('<span class="formula-card__includes-dot" aria-hidden="true">·</span>');
+
+  card.innerHTML = `
+    <div class="formula-card__glow" aria-hidden="true"></div>
+    <header class="formula-card__head">
+      <span class="formula-card__badge">${escapeHtml(badgeLabel)}</span>
+      <h4 class="formula-card__title">${escapeHtml(item.name)}</h4>
+      <div class="formula-card__price">
+        <span class="formula-card__price-amount">$${item.price.toFixed(0)}</span>
+        <span class="formula-card__price-unit">per person</span>
+      </div>
+    </header>
+    <div class="formula-card__sections">${sectionsHtml}</div>
+    <footer class="formula-card__includes">${includesHtml}</footer>
+  `;
+
+  return card;
+}
+
 function createSpiritColumnHeader() {
   const header = document.createElement('div');
   header.className = 'menu-spirit-cols';
@@ -547,6 +650,18 @@ function renderMenuContent() {
 
         if (cat.priceType === 'spirit') {
           menuContentEl.appendChild(createSpiritColumnHeader());
+        }
+
+        if (cat.type === 'formulas') {
+          const grid = document.createElement('div');
+          grid.className = 'menu-formulas';
+          filteredItems.forEach((item) => {
+            grid.appendChild(createFormulaCard(item, globalIndex));
+            globalIndex += 1;
+            totalVisible += 1;
+          });
+          menuContentEl.appendChild(grid);
+          return;
         }
 
         filteredItems.forEach((item) => {
