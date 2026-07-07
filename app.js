@@ -503,7 +503,6 @@ function renderMenuContent() {
       menuContentEl.innerHTML = '';
       let totalVisible = 0;
       let globalIndex = 0;
-      const showDividers = activeSubcategory === 'all';
 
       sectionsToShow.forEach(([catKey, cat]) => {
         const filteredItems = cat.items
@@ -517,12 +516,10 @@ function renderMenuContent() {
 
         if (filteredItems.length === 0) return;
 
-        if (showDividers) {
-          const divider = createCategoryDivider(cat.label, cat.note || '');
-          divider.id = `section-${activeCuisine}-${catKey}`;
-          divider.dataset.category = catKey;
-          menuContentEl.appendChild(divider);
-        }
+        const divider = createCategoryDivider(cat.label, cat.note || '');
+        divider.id = `section-${activeCuisine}-${catKey}`;
+        divider.dataset.category = catKey;
+        menuContentEl.appendChild(divider);
 
         if (cat.priceType === 'spirit') {
           menuContentEl.appendChild(createSpiritColumnHeader());
