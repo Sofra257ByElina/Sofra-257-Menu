@@ -16,11 +16,26 @@ function resolvePrice(item) {
   return null;
 }
 
+function isSpiritPrice(price) {
+  return price != null && typeof price === 'object' && 'glass' in price && 'bottle' in price;
+}
+
+function isPizzaPrice(price) {
+  return price != null && typeof price === 'object' && 'cm30' in price;
+}
+
 function formatPrice(price, item = {}) {
   if (price == null) {
     return '<span class="menu-price menu-price--ask">Ask server</span>';
   }
-  if (typeof price === 'object') {
+  if (isSpiritPrice(price)) {
+    return `
+      <div class="menu-line__spirit-prices">
+        <span class="menu-price">$${price.glass.toFixed(2)}</span>
+        <span class="menu-price">$${price.bottle.toFixed(2)}</span>
+      </div>`;
+  }
+  if (isPizzaPrice(price)) {
     return `
       <span class="menu-price menu-price--sizes">
         <span class="menu-price__size"><em>30</em>$${price.cm30.toFixed(2)}</span>
@@ -50,70 +65,70 @@ const menuData = {
       'cold-mezza': {
         label: 'Cold Mezza',
         items: [
-          mi('cm-1', 'Hummus'),
-          mi('cm-2', 'Hummus Awarma'),
-          mi('cm-3', 'Hummus Sofra'),
-          mi('cm-4', 'Mutabbal'),
-          mi('cm-5', 'Vine Leaves'),
-          mi('cm-6', 'Labneh with Garlic'),
-          mi('cm-7', 'Labneh with Pesto'),
-          mi('cm-8', 'Labneh with Olives'),
-          mi('cm-9', 'Shanklish'),
-          mi('cm-10', 'Lebanese Cheese'),
-          mi('cm-11', 'Tajin'),
-          mi('cm-12', 'Foul Mdammas'),
+          mi('cm-1', 'Hummus', '', 4),
+          mi('cm-2', 'Hummus Awarma', '', 6),
+          mi('cm-3', 'Hummus Sofra 257', '', 8),
+          mi('cm-4', 'Mutabbal', '', 4),
+          mi('cm-5', 'Vine Leaves', '', 6),
+          mi('cm-6', 'Labneh with Garlic', '', 5),
+          mi('cm-7', 'Labneh with Pesto', '', 8),
+          mi('cm-8', 'Labneh with Olives', '', 8),
+          mi('cm-9', 'Shanklish', '', 7),
+          mi('cm-10', 'Lebanese Cheese', '', 7),
+          mi('cm-11', 'Tajin', '', 8),
+          mi('cm-12', 'Foul Mdammas', '', 5),
         ],
       },
       'hot-mezza': {
         label: 'Hot Mezza & Appetizers',
         items: [
-          mi('hm-1', 'Ma2ane'),
-          mi('hm-2', 'Sujouk'),
-          mi('hm-3', 'Chicken Liver'),
-          mi('hm-4', 'Chicken Wings Provençal'),
-          mi('hm-5', 'Mushroom Provençal'),
-          mi('hm-6', 'Potato Provençal'),
-          mi('hm-7', 'French Fries'),
+          mi('hm-1', 'Makanek', '', 10),
+          mi('hm-2', 'Sujuk', '', 10),
+          mi('hm-3', 'Chicken Liver', '', 7),
+          mi('hm-4', 'Chicken Wings Provençal', '', 8),
+          mi('hm-5', 'Mushroom Provençal', '', 8),
+          mi('hm-6', 'Potato Provençal', '', 6),
+          mi('hm-7', 'French Fries', '', 4),
         ],
       },
       salads: {
         label: 'Salads',
         items: [
-          mi('sa-1', 'Tabbouleh'),
-          mi('sa-2', 'Fattoush'),
-          mi('sa-3', 'Rocca Salad'),
-          mi('sa-4', 'Beetroot Salad'),
-          mi('sa-5', 'Chef Salad'),
+          mi('sa-1', 'Tabbouleh', '', 8),
+          mi('sa-2', 'Fattoush', '', 8),
+          mi('sa-3', 'Rocca Salad', '', 8),
+          mi('sa-4', 'Beetroot Salad', '', 8),
+          mi('sa-5', 'Chef Salad', '', 10),
         ],
       },
       'raw-traditional': {
         label: 'Raw & Traditional',
         items: [
-          mi('rt-1', 'Kibbeh Nayyeh'),
-          mi('rt-2', 'Ftine Nayyeh'),
-          mi('rt-3', 'Sawda Nayyeh'),
-          mi('rt-4', 'Ras Kibbeh'),
-          mi('rt-5', 'Kebab Kibbeh'),
-          mi('rt-6', 'Tableh'),
-          mi('rt-7', 'Roz'),
-          mi('rt-8', 'Sofra 25/7 Kibbeh', '', null, { featured: true }),
+          mi('rt-1', 'Kibbeh Nayyeh', '', 0),
+          mi('rt-2', 'Ftine Nayyeh', '', 0),
+          mi('rt-3', 'Sawda Nayyeh', '', 0),
+          mi('rt-4', 'Ras Kibbeh', '', 0),
+          mi('rt-5', 'Kebab Kibbeh', '', 0),
+          mi('rt-6', 'Tableh', '', 0),
+          mi('rt-7', 'Roz', '', 0),
+          mi('rt-8', 'Sofra 25/7 Kibbeh', '', 0, { featured: true }),
         ],
       },
       pastries: {
         label: 'Pastries',
         items: [
-          mi('pa-1', 'Sambousek'),
-          mi('pa-2', 'Cheese Rolls'),
-          mi('pa-3', 'Sfiha'),
+          mi('pa-1', 'Sambousek', '', 0),
+          mi('pa-2', 'Cheese Rolls', '', 0),
+          mi('pa-3', 'Sfiha', '', 0),
         ],
       },
       barbecue: {
         label: 'Barbecue',
         items: [
-          mi('bb-1', 'Grilled Beef'),
-          mi('bb-2', 'Kafta'),
-          mi('bb-3', 'Tawouk'),
-          mi('bb-4', 'Mixed Grills', '', null, { featured: true }),
+          mi('bb-1', 'Grilled Beef', '', 0),
+          mi('bb-2', 'Kafta', '', 0),
+          mi('bb-3', 'Tawouk', '', 0),
+          mi('bb-4', 'Mixed Grills', '', 0, { featured: true }),
         ],
       },
     },
@@ -130,7 +145,6 @@ const menuData = {
           mi('sw-3', 'Chicken Sub', '', 10),
           mi('sw-4', 'Fajita Sub', '', 8),
           mi('sw-5', 'Chicken Caesar Sub', '', 10),
-          mi('sw-6', 'Sub Marine', '', 10),
         ],
       },
       burgers: {
@@ -147,7 +161,7 @@ const menuData = {
       },
       pizza: {
         label: 'Pizza',
-        note: '30 cm · 40 cm · 50 cm  —  Standard $12 / $17 / $22  ·  Premium $15 / $20 / $25',
+        note: '30 cm · 40 cm · 50 cm',
         items: [
           mi('pz-1', 'Lebanese', 'Pizza sauce, ham, mozzarella, corn, mushroom, green pepper, olives, cherry tomato, and thyme.', null, { tier: 'standard' }),
           mi('pz-2', 'BBQ Chicken', 'BBQ sauce, marinated grilled chicken, mozzarella, and onions.', null, { tier: 'standard' }),
@@ -158,8 +172,6 @@ const menuData = {
           mi('pz-7', 'Fajita', 'Pizza sauce, special fajita mix, and mozzarella.', null, { tier: 'standard' }),
           mi('pz-8', 'Sujouk', 'Pizza sauce, mozzarella, and sujouk.', null, { tier: 'standard' }),
           mi('pz-9', 'Chef\'s Creation', 'Half pepperoni pizza, half Alfredo pasta pie, topped with melted mozzarella and extra pepperoni.', null, { tier: 'standard', featured: true }),
-          mi('pz-10', 'Sofra Special', 'Mozzarella, ham, pepperoni, and salami — finished with cherry tomatoes, pickles, lettuce, house sauces, and honey drizzle.', null, { tier: 'premium', featured: true }),
-          mi('pz-11', 'Shawarmizza', 'Mozzarella, grilled marinated beef, tomatoes, onions, pickles, parsley, sumac, and tahini sauce.', null, { tier: 'premium', featured: true }),
         ],
       },
       pasta: {
@@ -201,6 +213,91 @@ const menuData = {
           mi('sb-2', 'Crab Burrito', 'Nori and sushi rice with crab, cream cheese, cucumber, avocado, mango, carrot, and strawberry.', 12),
           mi('sb-3', 'Shrimp Burrito', 'Nori and sushi rice with shrimp, crab, avocado, mango, and signature sauce.', 12),
           mi('sb-4', 'Tuna Burrito', 'Nori and sushi rice with cooked tuna and avocado, signature sauce and strawberry.', 12),
+        ],
+      },
+    },
+  },
+
+  drinks: {
+    label: '257 Bar',
+    categories: {
+      cocktails: {
+        label: 'Signature Cocktails',
+        items: [
+          mi('ck-1', '25th Hour', '', 6, { featured: true }),
+          mi('ck-2', 'Whiskey Sour', '', 5),
+          mi('ck-3', 'Amaretto Sour', '', 6),
+          mi('ck-4', 'Midori Sour', '', 7),
+          mi('ck-5', 'Screwdriver', '', 4),
+          mi('ck-6', 'Sex on the Beach', '', 7),
+          mi('ck-7', 'Burgundy Night', '', 5),
+          mi('ck-8', 'Becca Sunset', '', 6),
+          mi('ck-9', 'Minted Mojito', '', 7),
+          mi('ck-10', 'Bella Spritz (Aperol)', '', 7),
+          mi('ck-11', 'Aperol Sour', '', 6),
+          mi('ck-12', 'Woodfather', '', 6),
+          mi('ck-13', 'Long Island Iced Tea', '', 8),
+          mi('ck-14', 'Gin Basil', '', 5),
+          mi('ck-15', 'White Lady', '', 5),
+          mi('ck-16', 'Tom Collins', '', 6),
+          mi('ck-17', 'Maybe Wine', '', 8),
+        ],
+      },
+      whiskey: {
+        label: 'Whiskey',
+        priceType: 'spirit',
+        note: 'Glass · Bottle',
+        items: [
+          mi('wh-1', 'Red Label', '', { glass: 6, bottle: 60 }),
+          mi('wh-2', 'Black Label', '', { glass: 7, bottle: 70 }),
+          mi('wh-3', 'Chivas', '', { glass: 7, bottle: 70 }),
+        ],
+      },
+      vodka: {
+        label: 'Vodka',
+        priceType: 'spirit',
+        note: 'Glass · Bottle',
+        items: [
+          mi('vd-1', 'Stolichnaya', '', { glass: 5, bottle: 50 }),
+          mi('vd-2', 'Zubrowka', '', { glass: 4, bottle: 40 }),
+        ],
+      },
+      gin: {
+        label: 'Gin',
+        priceType: 'spirit',
+        note: 'Glass · Bottle',
+        items: [
+          mi('gn-1', "Gordan's", '', { glass: 5, bottle: 50 }),
+        ],
+      },
+      wine: {
+        label: 'Wine',
+        items: [
+          mi('wn-1', 'White Wine', '', 6),
+          mi('wn-2', 'Red Wine', '', 6),
+          mi('wn-3', 'Rosé Wine', '', 6),
+        ],
+      },
+      beer: {
+        label: 'Beer',
+        items: [
+          mi('br-1', 'Rosé Beer', '', 4),
+          mi('br-2', 'Almaza', '', 3.5),
+          mi('br-3', 'Mexican Beer', '', 5),
+        ],
+      },
+      refreshments: {
+        label: 'Soft Drinks',
+        items: [
+          mi('sf-1', 'Soft Drinks', '', 1.5),
+          mi('sf-2', 'Water', '', 0.5),
+        ],
+      },
+      hookah: {
+        label: 'Hookah',
+        items: [
+          mi('hk-1', 'Hamod w Na3na3', '', 7),
+          mi('hk-2', 'Tefehten', '', 7),
         ],
       },
     },
@@ -316,16 +413,18 @@ function renderSubcategoryTabs() {
   scrollActiveTabIntoView(subcategoryTabsEl);
 }
 
-function createMenuLineItem(item, categoryKey, globalIndex) {
+function createMenuLineItem(item, categoryKey, globalIndex, priceType = '') {
   const price = resolvePrice(item);
   const badges = getBadges(item, categoryKey);
-  const multiPrice = price != null && typeof price === 'object';
+  const multiPrice = isPizzaPrice(price);
+  const spiritPrice = isSpiritPrice(price) || priceType === 'spirit';
 
   const row = document.createElement('article');
   row.className = [
     'menu-line',
     item.featured ? 'menu-line--featured' : '',
     item.tier === 'premium' ? 'menu-line--premium' : '',
+    spiritPrice ? 'menu-line--spirit' : '',
   ].filter(Boolean).join(' ');
   row.id = `item-${item.id}`;
   row.dataset.id = item.id;
@@ -340,12 +439,18 @@ function createMenuLineItem(item, categoryKey, globalIndex) {
     ? `<p class="menu-line__desc">${escapeHtml(item.description)}</p>`
     : '';
 
-  const leaderHtml = multiPrice
+  const leaderHtml = multiPrice || spiritPrice
     ? ''
     : '<span class="menu-line__leader" aria-hidden="true"></span>';
 
+  const rowClass = [
+    'menu-line__row',
+    multiPrice ? ' menu-line__row--sizes' : '',
+    spiritPrice ? ' menu-line__row--spirit' : '',
+  ].join('');
+
   row.innerHTML = `
-    <div class="menu-line__row${multiPrice ? ' menu-line__row--sizes' : ''}">
+    <div class="${rowClass}">
       <h4 class="menu-line__name">${escapeHtml(item.name)}</h4>
       ${leaderHtml}
       <div class="menu-line__price">${formatPrice(price, item)}</div>
@@ -357,19 +462,25 @@ function createMenuLineItem(item, categoryKey, globalIndex) {
   return row;
 }
 
-function createCategoryDivider(label, note = '', count = 0) {
+function createSpiritColumnHeader() {
+  const header = document.createElement('div');
+  header.className = 'menu-spirit-cols';
+  header.setAttribute('aria-hidden', 'true');
+  header.innerHTML = `
+    <span class="menu-spirit-cols__name"></span>
+    <span class="menu-spirit-cols__label">Glass</span>
+    <span class="menu-spirit-cols__label">Bottle</span>
+  `;
+  return header;
+}
+
+function createCategoryDivider(label, note = '') {
   const divider = document.createElement('div');
   divider.className = 'menu-section-divider';
   const noteHtml = note ? `<p class="menu-section-divider__note">${escapeHtml(note)}</p>` : '';
-  const countHtml = count > 0
-    ? `<span class="menu-section-divider__count">${count} items</span>`
-    : '';
   divider.innerHTML = `
     <div class="menu-section-divider__head">
-      <div class="menu-section-divider__title-wrap">
-        <h3 class="menu-section-divider__title">${escapeHtml(label)}</h3>
-        ${countHtml}
-      </div>
+      <h3 class="menu-section-divider__title">${escapeHtml(label)}</h3>
       <span class="menu-section-divider__line" aria-hidden="true"></span>
     </div>
     ${noteHtml}
@@ -407,14 +518,18 @@ function renderMenuContent() {
         if (filteredItems.length === 0) return;
 
         if (showDividers) {
-          const divider = createCategoryDivider(cat.label, cat.note || '', filteredItems.length);
+          const divider = createCategoryDivider(cat.label, cat.note || '');
           divider.id = `section-${activeCuisine}-${catKey}`;
           divider.dataset.category = catKey;
           menuContentEl.appendChild(divider);
         }
 
+        if (cat.priceType === 'spirit') {
+          menuContentEl.appendChild(createSpiritColumnHeader());
+        }
+
         filteredItems.forEach((item) => {
-          menuContentEl.appendChild(createMenuLineItem(item, catKey, globalIndex));
+          menuContentEl.appendChild(createMenuLineItem(item, catKey, globalIndex, cat.priceType || ''));
           globalIndex += 1;
           totalVisible += 1;
         });
