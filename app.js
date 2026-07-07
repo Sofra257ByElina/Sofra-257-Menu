@@ -341,9 +341,30 @@ function smoothScrollToElement(el) {
 
 function scrollActiveTabIntoView(container) {
   const active = container?.querySelector('.active');
-  if (!active) return;
+  if (!active || !container) return;
 
-  active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  const pad = 12;
+  const activeLeft = active.offsetLeft;
+  const activeRight = activeLeft + active.offsetWidth;
+  const scrollLeft = container.scrollLeft;
+  const viewWidth = container.clientWidth;
+  const behavior = window.matchMedia('(max-width: 768px)').matches ? 'auto' : 'smooth';
+
+  if (activeLeft < scrollLeft + pad) {
+    container.scrollTo({ left: Math.max(0, activeLeft - pad), behavior });
+  } else if (activeRight > scrollLeft + viewWidth - pad) {
+    container.scrollTo({ left: activeRight - viewWidth + pad, behavior });
+  }
+}
+
+function updateSubcategoryTabActiveState() {
+  subcategoryTabsEl.querySelectorAll('.subcategory-tab').forEach((btn) => {
+    const isActive = btn.dataset.subcategory === activeSubcategory;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-selected', String(isActive));
+  });
+
+  scrollActiveTabIntoView(subcategoryTabsEl);
 }
 
 function getCuisineCategories(cuisineKey) {
@@ -407,7 +428,10 @@ function renderSubcategoryTabs() {
     .join('');
 
   subcategoryTabsEl.querySelectorAll('.subcategory-tab').forEach((btn) => {
-    btn.addEventListener('click', () => selectSubcategory(btn.dataset.subcategory));
+    btn.addEventListener('click', () => {
+      selectSubcategory(btn.dataset.subcategory);
+      btn.blur();
+    });
   });
 
   scrollActiveTabIntoView(subcategoryTabsEl);
@@ -560,8 +584,10 @@ function selectSubcategory(subcategoryKey) {
   if (subcategoryKey === activeSubcategory) return;
 
   activeSubcategory = subcategoryKey;
-  renderSubcategoryTabs();
+  updateSubcategoryTabActiveState();
   renderMenuContent();
+
+  if (window.matchMedia('(max-width: 768px)').matches) return;
 
   requestAnimationFrame(() => {
     if (subcategoryKey === 'all') {
