@@ -39,6 +39,8 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--scroll-padding);
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -54,10 +56,17 @@ body {
   background: var(--forest-deep);
   color: var(--cream);
   min-height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
   line-height: 1.5;
+}
+
+main {
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* ---- Logos ---- */
@@ -395,6 +404,7 @@ body {
   top: 16%;
   left: 50%;
   transform: translate(-50%, -50%);
+  max-width: 100%;
   font-family: 'Syne', sans-serif;
   font-size: clamp(9rem, 28vw, 20rem);
   font-weight: 800;
@@ -404,6 +414,7 @@ body {
   white-space: nowrap;
   pointer-events: none;
   user-select: none;
+  overflow: hidden;
 }
 
 .menu-inner {
@@ -516,6 +527,7 @@ body {
   top: 0.75rem;
   z-index: 40;
   max-width: 720px;
+  width: 100%;
   margin: 0 auto 1.75rem;
   padding: 1.15rem 1.15rem 1rem;
   background: rgba(34, 58, 50, 0.96);
@@ -526,6 +538,7 @@ body {
     0 0 0 1px rgba(158, 196, 168, 0.06) inset;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  overflow: hidden;
 }
 
 .menu-controls-panel::before {
@@ -587,6 +600,7 @@ body {
   gap: 0.4rem;
   margin-bottom: 0;
   padding: 0.35rem;
+  max-width: 100%;
   background: rgba(0, 0, 0, 0.15);
   border: 1px solid var(--glass-border);
   border-radius: 9999px;
@@ -632,10 +646,13 @@ body {
   flex-wrap: nowrap;
   gap: 0.4rem;
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: none;
+  max-width: 100%;
   padding: 0.35rem;
   justify-content: flex-start;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
@@ -1167,9 +1184,10 @@ body {
   }
 
   .menu-controls-panel {
-    margin: 0 -0.5rem 1.25rem;
-    padding: 1rem;
-    border-radius: 1rem;
+    top: 0;
+    margin: 0 0 1rem;
+    padding: 0.85rem 0.75rem;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   }
 
   .menu-controls {
@@ -1178,6 +1196,7 @@ body {
 
   .menu-list-wrap {
     max-width: 100%;
+    padding: 1rem 1rem 1.5rem;
   }
 
   .menu-line__row--spirit .menu-line__price {
@@ -1211,18 +1230,6 @@ body {
     font-size: 0.78rem;
   }
 
-  /* Sticky filter panel on mobile */
-  .menu-controls-panel {
-    top: 0;
-    margin: 0 -0.5rem 1rem;
-    padding: 0.85rem 0.75rem;
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-  }
-
-  .menu-list-wrap {
-    padding: 1rem 1rem 1.5rem;
-  }
-
   .menu-line {
     padding: 1.05rem 0.65rem;
     margin: 0;
@@ -1242,8 +1249,10 @@ body {
     flex-wrap: nowrap;
     justify-content: flex-start;
     overflow-x: auto;
+    overflow-y: hidden;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
     padding-bottom: 0.15rem;
     mask-image: linear-gradient(to right, transparent, #000 8px, #000 calc(100% - 8px), transparent);
   }
