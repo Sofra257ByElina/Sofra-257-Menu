@@ -567,18 +567,19 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  min-width: 0;
 }
 
 .filter-sticky__inner {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  min-width: 0;
 }
 
 @media (min-width: 640px) {
   .subcategory-tabs {
     justify-content: center;
-    mask-image: none;
   }
 }
 
@@ -632,7 +633,12 @@ main {
   background: linear-gradient(180deg, var(--cream) 0%, var(--gold-bright) 140%);
   border-color: rgba(240, 207, 160, 0.5);
   box-shadow: var(--shadow-gold);
-  transform: translateY(-1px);
+}
+
+@media (min-width: 769px) {
+  .cuisine-tab.active {
+    transform: translateY(-1px);
+  }
 }
 
 .cuisine-tab:focus-visible,
@@ -649,14 +655,21 @@ main {
   overflow-y: hidden;
   scrollbar-width: none;
   max-width: 100%;
+  min-width: 0;
   padding: 0.35rem;
   justify-content: flex-start;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
+  touch-action: pan-x;
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  mask-image: linear-gradient(to right, transparent, #000 12px, #000 calc(100% - 12px), transparent);
+}
+
+@media (min-width: 769px) {
+  .subcategory-tabs {
+    mask-image: linear-gradient(to right, transparent, #000 12px, #000 calc(100% - 12px), transparent);
+  }
 }
 
 .subcategory-tab {
@@ -1254,7 +1267,14 @@ main {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
     padding-bottom: 0.15rem;
-    mask-image: linear-gradient(to right, transparent, #000 8px, #000 calc(100% - 8px), transparent);
+  }
+
+  .cuisine-tabs {
+    touch-action: pan-x;
+  }
+
+  .subcategory-tabs {
+    mask-image: none;
   }
 
   .cuisine-tabs::-webkit-scrollbar { display: none; }
