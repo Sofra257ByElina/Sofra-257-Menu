@@ -209,7 +209,7 @@ const menuData = {
           mi('sw-1', 'Tawouk Sandwich', '', 6),
           mi('sw-2', 'Special Tawouk', '', 8),
           mi('sw-3', 'Chicken Sub', '', 10),
-          mi('sw-4', 'Fajita Sub', '', 8),
+          mi('sw-4', 'Fajita Sub', '', 10),
           mi('sw-5', 'Chicken Caesar Sub', '', 10),
         ],
       },
